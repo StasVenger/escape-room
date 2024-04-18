@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import QuestPage from './pages/quest-page/quest-page';
+import { HelmetProvider } from 'react-helmet-async';
+import { BrowserRouter } from 'react-router-dom';
+import App from './app';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +10,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <QuestPage />
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
