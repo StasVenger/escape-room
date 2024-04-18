@@ -1,6 +1,6 @@
 import Wrapper from '../../components/wrapper/wrapper';
 
-function MainPage() {
+function MainPage(): JSX.Element {
   return (
     <Wrapper mainClass="page-content">
       <div className="container">

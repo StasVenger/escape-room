@@ -1,6 +1,6 @@
 import Wrapper from '../../components/wrapper/wrapper';
 
-function BookingPage() {
+function BookingPage(): JSX.Element {
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">

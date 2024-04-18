@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MyQuestsPage from './pages/my-quests-page/my-quests-page';
+import QuestPage from './pages/quest-page/quest-page';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <MyQuestsPage />
+    <QuestPage />
   </React.StrictMode>
 );
