@@ -5,14 +5,15 @@ import Footer from '../footer/footer';
 
 type TWrapper = {
   children: ReactNode;
+  mainClass: string;
   extraClass?: string;
 }
 
-function Wrapper({ children, extraClass }: TWrapper): JSX.Element {
+function Wrapper({ children, mainClass, extraClass }: TWrapper): JSX.Element {
   return (
     <div className="wrapper">
       <Header />
-      <main className={classNames('page-content', extraClass)}>
+      <main className={classNames(mainClass, extraClass)}>
         {children}
       </main>
       <Footer />

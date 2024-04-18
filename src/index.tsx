@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ContactsPage from './pages/contacts-page/contacts-page';
+import LoginPage from './pages/login-page/login-page';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <ContactsPage />
+    <LoginPage />
   </React.StrictMode>
 );

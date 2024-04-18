@@ -2,7 +2,7 @@ import Wrapper from '../../components/wrapper/wrapper';
 
 function ContactsPage(): JSX.Element {
   return (
-    <Wrapper extraClass="decorated-page">
+    <Wrapper mainClass="page-content" extraClass="decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet="img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />

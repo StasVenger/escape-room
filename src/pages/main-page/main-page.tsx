@@ -2,7 +2,7 @@ import Wrapper from '../../components/wrapper/wrapper';
 
 function MainPage() {
   return (
-    <Wrapper>
+    <Wrapper mainClass="page-content">
       <div className="container">
         <div className="page-content__title-wrapper">
           <h1 className="subtitle page-content__subtitle">квесты в Санкт-Петербурге
