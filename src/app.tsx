@@ -7,8 +7,23 @@ import MyQuestsPage from './pages/my-quests-page/my-quests-page';
 import ContactsPage from './pages/contacts-page/contacts-page';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import BookingPage from './pages/booking-page/booking-page';
+import { useAppDispatch } from './hooks';
+import { getToken } from '@services/token';
+import { checkAuthAction } from '@store/thunks/auth';
+import { fetchQuestsAction } from '@store/thunks/quests';
+import { useEffect } from 'react';
 
-function App() {
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const token = getToken();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(checkAuthAction());
+    }
+    dispatch(fetchQuestsAction());
+  }, [dispatch, token]);
+
   return (
     <Routes>
       <Route

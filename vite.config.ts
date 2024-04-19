@@ -24,6 +24,7 @@ export default defineConfig({
       '@type': resolve(root, 'types'),
       '@store': resolve(root, 'store'),
       '@thunks': resolve(root, 'thunks'),
+      '@hooks': resolve(root, 'hooks'),
     }
   }
 });

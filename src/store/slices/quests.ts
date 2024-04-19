@@ -25,7 +25,7 @@ const questsSlice = createSlice({
     .addCase(fetchQuestsAction.rejected, (state) => {
       state.status = RequestStatus.Failed;
     }),
-  name: '',
+  name: 'quests',
   initialState,
   reducers: {},
   selectors: {
