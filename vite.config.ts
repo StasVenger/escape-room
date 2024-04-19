@@ -20,6 +20,11 @@ export default defineConfig({
       '@constants': resolve(root, 'constants'),
       '@components': resolve(root, 'components'),
       '@pages': resolve(root, 'pages'),
+      '@services': resolve(root, 'services'),
+      '@type': resolve(root, 'types'),
+      '@store': resolve(root, 'store'),
+      '@thunks': resolve(root, 'thunks'),
+      '@hooks': resolve(root, 'hooks'),
     }
   }
 });
