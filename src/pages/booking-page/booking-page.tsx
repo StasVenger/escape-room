@@ -1,19 +1,44 @@
-import Wrapper from '../../components/wrapper/wrapper';
+import Loader from '@components/loader/loader';
+import Wrapper from '@components/wrapper/wrapper';
+import { RequestStatus } from '@constants';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
+import NotFoundPage from '@pages/not-found-page/not-found-page';
+import { questSelectors } from '@store/slices/quest';
+import { fetchQuestByIdAction } from '@store/thunks/quests';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 function BookingPage(): JSX.Element {
+  const { questId } = useParams();
+  const dispatch = useAppDispatch();
+  const questInfo = useAppSelector(questSelectors.selectQuest);
+  const questRequestStatus = useAppSelector(questSelectors.selectStatus);
+
+  useEffect(() => {
+    dispatch(fetchQuestByIdAction(questId as string));
+  }, [dispatch, questId]);
+
+  if (questRequestStatus === RequestStatus.Loading) {
+    return <Loader />;
+  }
+
+  if (questRequestStatus === RequestStatus.Failed || !questInfo || !questId) {
+    return <NotFoundPage />;
+  }
+
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
-          <source type="image/webp" srcSet="img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />
-          <img src="img/content/maniac/maniac-bg-size-m.jpg" srcSet="img/content/maniac/maniac-bg-size-m@2x.jpg 2x" width={1366} height={1959} alt="" />
+          <source type="image/webp" srcSet={questInfo?.coverImgWebp} />
+          <img src={questInfo?.coverImg} srcSet={questInfo?.coverImg} width={1366} height={1959} alt="" />
         </picture>
       </div>
       <div className="container container--size-s">
         <div className="page-content__title-wrapper">
           <h1 className="subtitle subtitle--size-l page-content__subtitle">Бронирование квеста
           </h1>
-          <p className="title title--size-m title--uppercase page-content__title">Маньяк</p>
+          <p className="title title--size-m title--uppercase page-content__title">{questInfo?.title}</p>
         </div>
         <div className="page-content__item">
           <div className="booking-map">

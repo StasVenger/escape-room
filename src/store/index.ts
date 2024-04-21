@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createAPI } from '@services/api';
 import { questsSlice } from './slices/quests';
+import { questSlice } from './slices/quest';
 
 export const api = createAPI();
 
 const rootReducer = combineReducers({
-  [questsSlice.name]: questsSlice.reducer
+  [questsSlice.name]: questsSlice.reducer,
+  [questSlice.name]: questSlice.reducer
 });
 
 export function setupStore(preloadedState?: Partial<RootState>) {

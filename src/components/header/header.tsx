@@ -1,3 +1,6 @@
+import { AppRoute } from '@constants';
+import { NavLink } from 'react-router-dom';
+
 function Header(): JSX.Element {
   return (
     <header className="header">
@@ -10,13 +13,13 @@ function Header(): JSX.Element {
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
-              <a className="link active" href="index.html">Квесты</a>
+              <NavLink className="link" to={AppRoute.Root}>Квесты</NavLink>
             </li>
             <li className="main-nav__item">
-              <a className="link" href="contacts.html">Контакты</a>
+              <NavLink className="link" to={AppRoute.Contacts}>Контакты</NavLink>
             </li>
             <li className="main-nav__item">
-              <a className="link" href="my-quests.html">Мои бронирования</a>
+              <NavLink className="link" to={AppRoute.MyQuests}>Мои бронирования</NavLink>
             </li>
           </ul>
         </nav>

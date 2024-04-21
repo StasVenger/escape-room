@@ -1,11 +1,17 @@
+import Loader from '@components/loader/loader';
 import QuestsList from '@components/quests-list/quests-list';
 import Wrapper from '@components/wrapper/wrapper';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { RequestStatus } from '@constants';
+import { useAppSelector } from '@hooks/index';
 import { questsSelectors } from '@store/slices/quests';
 
 function MainPage(): JSX.Element {
-  // const dispatch = useAppDispatch();
   const selectedQuests = useAppSelector(questsSelectors.selectQuests);
+  const questsRequestStatus = useAppSelector(questsSelectors.selectStatus);
+
+  if (questsRequestStatus === RequestStatus.Loading) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper mainClass="page-content">

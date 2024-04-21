@@ -1,4 +1,4 @@
-import { AppRoute, dificultyLevels } from '@constants';
+import { AppRoute, DIFFICULTY_LEVELS } from '@constants';
 import { Quest } from '@type/quest';
 import { Link } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ function QuestCard({ quest }: TQuestCard): JSX.Element {
           <li className="tags__item">
             <svg width={14} height={14} aria-hidden="true">
               <use xlinkHref="#icon-level" />
-            </svg>{dificultyLevels[quest.level as keyof typeof dificultyLevels]}
+            </svg>{DIFFICULTY_LEVELS[quest.level as keyof typeof DIFFICULTY_LEVELS]}
           </li>
         </ul>
       </div>
