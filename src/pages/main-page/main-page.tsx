@@ -14,7 +14,7 @@ function MainPage(): JSX.Element {
   }
 
   return (
-    <Wrapper mainClass="page-content">
+    <Wrapper mainClass="page-content" isLogoLink={false}>
       <div className="container">
         <div className="page-content__title-wrapper">
           <h1 className="subtitle page-content__subtitle">квесты в Санкт-Петербурге

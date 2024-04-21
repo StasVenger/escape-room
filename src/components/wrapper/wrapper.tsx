@@ -7,12 +7,13 @@ type TWrapper = {
   children: ReactNode;
   mainClass: string;
   extraClass?: string;
+  isLogoLink?: boolean;
 }
 
-function Wrapper({ children, mainClass, extraClass }: TWrapper): JSX.Element {
+function Wrapper({ children, mainClass, extraClass, isLogoLink }: TWrapper): JSX.Element {
   return (
     <div className="wrapper">
-      <Header />
+      <Header isLogoLink={isLogoLink} />
       <main className={classNames(mainClass, extraClass)}>
         {children}
       </main>

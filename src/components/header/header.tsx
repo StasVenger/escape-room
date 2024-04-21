@@ -1,21 +1,22 @@
+import Logo from '@components/logo/logo';
 import { AppRoute, AuthorizationStatus } from '@constants';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
 import { logoutAction } from '@store/thunks/auth';
 import { Link, NavLink } from 'react-router-dom';
 
-function Header(): JSX.Element {
+type THeaderProps = {
+  isLogoLink?: boolean;
+}
+
+function Header({ isLogoLink }: THeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(authSelectors.selectAuthorizarionStatus);
 
   return (
     <header className="header">
       <div className="container container--size-l">
-        <span className="logo header__logo">
-          <svg width={134} height={52} aria-hidden="true">
-            <use xlinkHref="#logo" />
-          </svg>
-        </span>
+        <Logo isLogoLink={isLogoLink}/>
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
