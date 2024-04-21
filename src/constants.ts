@@ -40,3 +40,19 @@ export const QUEST_TYPES = {
   'sci-fi': 'Sci-fi'
 };
 
+export const QUEST_TYPES_FILTERS = [
+  { id: 'all', icon: 'icon-all-quests', text: 'Все квесты', width: 26, height: 30 },
+  { id: 'adventures', icon: 'icon-adventure', text: 'Приключения', width: 36, height: 30 },
+  { id: 'horror', icon: 'icon-horror', text: 'Ужасы', width: 30, height: 30 },
+  { id: 'mystic', icon: 'icon-mystic', text: 'Мистика', width: 30, height: 30 },
+  { id: 'detective', icon: 'icon-detective', text: 'Детектив', width: 40, height: 30 },
+  { id: 'sci-fi', icon: 'icon-sci-fi', text: 'Sci-fi', width: 28, height: 30 },
+];
+
+export const QUEST_LEVELS_FILTERS = [
+  { id: 'any', text: 'Любой' },
+  { id: 'easy', text: 'Лёгкий' },
+  { id: 'medium', text: 'Средний' },
+  { id: 'hard', text: 'Сложный' },
+];
+
