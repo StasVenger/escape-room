@@ -1,28 +1,19 @@
 import Loader from '@components/loader/loader';
 import Wrapper from '@components/wrapper/wrapper';
 import { RequestStatus } from '@constants';
-import { useAppDispatch, useAppSelector } from '@hooks/index';
+import { useAppSelector } from '@hooks/index';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
 import { questSelectors } from '@store/slices/quest';
-import { fetchQuestByIdAction } from '@store/thunks/quests';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 function BookingPage(): JSX.Element {
-  const { questId } = useParams();
-  const dispatch = useAppDispatch();
   const questInfo = useAppSelector(questSelectors.selectQuest);
   const questRequestStatus = useAppSelector(questSelectors.selectStatus);
-
-  useEffect(() => {
-    dispatch(fetchQuestByIdAction(questId as string));
-  }, [dispatch, questId]);
 
   if (questRequestStatus === RequestStatus.Loading) {
     return <Loader />;
   }
 
-  if (questRequestStatus === RequestStatus.Failed || !questInfo || !questId) {
+  if (questRequestStatus === RequestStatus.Failed || !questInfo) {
     return <NotFoundPage />;
   }
 
