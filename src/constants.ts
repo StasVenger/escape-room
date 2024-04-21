@@ -25,3 +25,9 @@ export enum AuthorizationStatus {
 }
 
 export enum RequestStatus { Idle, Loading, Success, Failed }
+
+export const dificultyLevels = {
+  'easy': 'Легкий',
+  'medium': 'Средний',
+  'hard': 'Сложный'
+};
