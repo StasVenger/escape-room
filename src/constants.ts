@@ -26,8 +26,17 @@ export enum AuthorizationStatus {
 
 export enum RequestStatus { Idle, Loading, Success, Failed }
 
-export const dificultyLevels = {
+export const DIFFICULTY_LEVELS = {
   'easy': 'Легкий',
   'medium': 'Средний',
   'hard': 'Сложный'
 };
+
+export const QUEST_TYPES = {
+  'adventures': 'Приключения',
+  'horror': 'Ужасы',
+  'mystic': 'Мистика',
+  'detective': 'Детектив',
+  'sci-fi': 'Sci-fi'
+};
+
