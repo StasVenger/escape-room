@@ -12,6 +12,7 @@ import { getToken } from '@services/token';
 import { checkAuthAction } from '@store/thunks/auth';
 import { fetchQuestsAction } from '@store/thunks/quests';
 import { useEffect } from 'react';
+import ProtectedRoute from '@components/protected-route/protected-route';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -32,11 +33,11 @@ function App(): JSX.Element {
       />
       <Route
         path={AppRoute.Login}
-        element={<LoginPage />}
+        element={<ProtectedRoute onlyUnAuth><LoginPage /></ProtectedRoute>}
       />
       <Route
         path={AppRoute.MyQuests}
-        element={<MyQuestsPage />}
+        element={<ProtectedRoute><MyQuestsPage /></ProtectedRoute>}
       />
       <Route
         path={AppRoute.Contacts}
@@ -48,7 +49,7 @@ function App(): JSX.Element {
       />
       <Route
         path={`${AppRoute.Quest}/:questId/booking`}
-        element={<BookingPage />}
+        element={<ProtectedRoute><BookingPage /></ProtectedRoute>}
       />
       <Route
         path='*'
