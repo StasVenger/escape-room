@@ -3,13 +3,15 @@ import { createAPI } from '@services/api';
 import { questsSlice } from './slices/quests';
 import { questSlice } from './slices/quest';
 import { authSlice } from './slices/auth';
+import { bookingSlice } from './slices/booking';
 
 export const api = createAPI();
 
 const rootReducer = combineReducers({
   [questsSlice.name]: questsSlice.reducer,
   [questSlice.name]: questSlice.reducer,
-  [authSlice.name]: authSlice.reducer
+  [authSlice.name]: authSlice.reducer,
+  [bookingSlice.name]: bookingSlice.reducer
 });
 
 export function setupStore(preloadedState?: Partial<RootState>) {
