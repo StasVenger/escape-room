@@ -1,5 +1,5 @@
 import LoginForm from '@components/login-form/login-form';
-import Wrapper from '../../components/wrapper/wrapper';
+import Wrapper from '@components/wrapper/wrapper';
 
 function LoginPage(): JSX.Element {
   return (

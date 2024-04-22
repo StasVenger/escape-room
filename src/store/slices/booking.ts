@@ -57,7 +57,10 @@ const bookingSlice = createSlice({
   initialState,
   name: 'booking',
   reducers: {},
-  selectors: {}
+  selectors: {
+    selectReservations: (state: BookingState) => state.reservations,
+    selectReservationStatus: (state: BookingState) => state.reservationStatus,
+  }
 });
 
 const bookingActions = bookingSlice.actions;

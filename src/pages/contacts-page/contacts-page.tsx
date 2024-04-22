@@ -1,4 +1,4 @@
-import Wrapper from '../../components/wrapper/wrapper';
+import Wrapper from '@components/wrapper/wrapper';
 
 function ContactsPage(): JSX.Element {
   return (
