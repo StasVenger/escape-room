@@ -1,5 +1,5 @@
 import { RequestStatus } from '@constants';
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { bookingQuestAction, deleteReservationAction, fetchBookingInfoAction, fetchReservationAction } from '@store/thunks/booking';
 import { BookingInfo } from '@type/booking-info';
 import { Reservation } from '@type/reservation';
@@ -7,15 +7,17 @@ import { Reservation } from '@type/reservation';
 type BookingState = {
   reservations: Reservation[];
   reservationStatus: RequestStatus;
-  bookingInfo: BookingInfo | null;
+  bookingInfo: BookingInfo[];
   bookingInfoStatus: RequestStatus;
+  selectedBookingInfo: BookingInfo | null;
 }
 
 const initialState: BookingState = {
   reservations: [],
   reservationStatus: RequestStatus.Idle,
-  bookingInfo: null,
+  bookingInfo: [],
   bookingInfoStatus: RequestStatus.Idle,
+  selectedBookingInfo: null,
 };
 
 const bookingSlice = createSlice({
@@ -40,6 +42,7 @@ const bookingSlice = createSlice({
       .addCase(fetchBookingInfoAction.fulfilled, (state, action) => {
         state.bookingInfoStatus = RequestStatus.Success;
         state.bookingInfo = action.payload;
+        state.selectedBookingInfo = action.payload[0];
       })
       .addCase(fetchBookingInfoAction.rejected, (state) => {
         state.bookingInfoStatus = RequestStatus.Failed;
@@ -56,10 +59,17 @@ const bookingSlice = createSlice({
       }),
   initialState,
   name: 'booking',
-  reducers: {},
+  reducers: {
+    setSelectedBookingInfo: (state: BookingState, action: PayloadAction<string>) => {
+      state.selectedBookingInfo = state.bookingInfo.find((bookingInfo) => bookingInfo.id === action.payload) || null;
+    }
+  },
   selectors: {
     selectReservations: (state: BookingState) => state.reservations,
     selectReservationStatus: (state: BookingState) => state.reservationStatus,
+    selectBookingInfo: (state: BookingState) => state.bookingInfo,
+    selectBookingStatus: (state: BookingState) => state.bookingInfoStatus,
+    selectSelectedBookingInfo: (state: BookingState) => state.selectedBookingInfo,
   }
 });
 

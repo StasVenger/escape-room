@@ -2,7 +2,6 @@ import Map from '@components/map/map';
 import Wrapper from '@components/wrapper/wrapper';
 import { OFFICE_POSITION_LATITUDE, OFFICE_POSITION_LONGITUDE } from '@constants';
 
-
 function ContactsPage(): JSX.Element {
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">

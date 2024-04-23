@@ -31,10 +31,10 @@ export const deleteReservationAction = createAppAsyncThunk<void, string>(
   }
 );
 
-export const fetchBookingInfoAction = createAppAsyncThunk<BookingInfo, string>(
+export const fetchBookingInfoAction = createAppAsyncThunk<BookingInfo[], string>(
   'data/fetchBookingInfo',
   async (questId, { extra: api }) => {
-    const { data } = await api.get<BookingInfo>(`${ApiRoute.Quests}/${questId}/booking`);
+    const { data } = await api.get<BookingInfo[]>(`${ApiRoute.Quests}/${questId}/booking`);
     return data;
   }
 );
