@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import Header from '../header/header';
 import classNames from 'classnames';
+import Header from '../header/header';
 import Footer from '../footer/footer';
 
 type TWrapper = {

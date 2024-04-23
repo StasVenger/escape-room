@@ -1,9 +1,9 @@
-import Logo from '@components/logo/logo';
+import { Link, NavLink } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '@constants';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
 import { logoutAction } from '@store/thunks/auth';
-import { Link, NavLink } from 'react-router-dom';
+import Logo from '@components/logo/logo';
 
 type THeaderProps = {
   isLogoLink?: boolean;

@@ -1,7 +1,7 @@
+import { Location, Navigate, useLocation } from 'react-router-dom';
 import { AppRoute } from '@constants';
 import { useAppSelector } from '@hooks/index';
 import { authSelectors } from '@store/slices/auth';
-import { Location, Navigate, useLocation } from 'react-router-dom';
 
 type TProtectedRouteProps = {
   onlyUnAuth?: boolean;

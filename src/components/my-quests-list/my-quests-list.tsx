@@ -1,5 +1,5 @@
-import MyQuestCard from '@components/my-quest-card/my-quest-card';
 import { Reservation } from '@type/reservation';
+import MyQuestCard from '@components/my-quest-card/my-quest-card';
 
 type TMyQuestsListProps = {
   reservations: Reservation[];

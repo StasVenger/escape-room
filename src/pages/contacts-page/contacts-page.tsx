@@ -1,3 +1,4 @@
+import HelmetComponent from '@components/helmet-component/helmet-component';
 import Map from '@components/map/map';
 import Wrapper from '@components/wrapper/wrapper';
 import { OFFICE_POSITION_LATITUDE, OFFICE_POSITION_LONGITUDE } from '@constants';
@@ -5,6 +6,7 @@ import { OFFICE_POSITION_LATITUDE, OFFICE_POSITION_LONGITUDE } from '@constants'
 function ContactsPage(): JSX.Element {
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
+      <HelmetComponent title="Контакты - Escape Room" />
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet="/img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />

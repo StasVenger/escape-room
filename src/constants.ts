@@ -57,4 +57,3 @@ export const QUEST_LEVELS_FILTERS = [
   { id: 'medium', text: 'Средний' },
   { id: 'hard', text: 'Сложный' },
 ];
-

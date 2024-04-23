@@ -1,12 +1,13 @@
-import Loader from '@components/loader/loader';
-import MyQuestsListEmpty from '@components/my-quests-list-empty/my-quests-list-empty';
-import MyQuestsList from '@components/my-quests-list/my-quests-list';
-import Wrapper from '@components/wrapper/wrapper';
+import { useEffect } from 'react';
 import { RequestStatus } from '@constants';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { bookingSelectors } from '@store/slices/booking';
 import { fetchReservationAction } from '@store/thunks/booking';
-import { useEffect } from 'react';
+import HelmetComponent from '@components/helmet-component/helmet-component';
+import Loader from '@components/loader/loader';
+import MyQuestsListEmpty from '@components/my-quests-list-empty/my-quests-list-empty';
+import MyQuestsList from '@components/my-quests-list/my-quests-list';
+import Wrapper from '@components/wrapper/wrapper';
 
 function MyQuestsPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function MyQuestsPage(): JSX.Element {
 
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
+      <HelmetComponent title="Бронирование квеста - Escape Room" />
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet="img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />

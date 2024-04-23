@@ -1,12 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
-import Wrapper from '@components/wrapper/wrapper';
+import { useEffect } from 'react';
 import { AppRoute, DIFFICULTY_LEVELS, QUEST_TYPES, RequestStatus } from '@constants';
-import NotFoundPage from '../not-found-page/not-found-page';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { questSelectors } from '@store/slices/quest';
 import { fetchQuestByIdAction } from '@store/thunks/quests';
-import { useEffect } from 'react';
+import Wrapper from '@components/wrapper/wrapper';
 import Loader from '@components/loader/loader';
+import HelmetComponent from '@components/helmet-component/helmet-component';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 function QuestPage(): JSX.Element {
   const { questId } = useParams();
@@ -28,6 +29,7 @@ function QuestPage(): JSX.Element {
 
   return (
     <Wrapper mainClass="decorated-page" extraClass="quest-page">
+      <HelmetComponent title="Квест - Escape Room" />
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet={questInfo?.coverImgWebp} />
