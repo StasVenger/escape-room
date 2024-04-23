@@ -1,5 +1,6 @@
-import { DIFFICULTY_LEVELS } from '@constants';
+import { AppRoute, DIFFICULTY_LEVELS } from '@constants';
 import { Reservation } from '@type/reservation';
+import { Link } from 'react-router-dom';
 
 type TMyQuestCardProps = {
   reservation: Reservation;
@@ -16,7 +17,7 @@ function MyQuestCard({ reservation }: TMyQuestCardProps): JSX.Element {
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <a className="quest-card__link" href="quest.html">{reservation.quest.title}</a>
+          <Link className="quest-card__link" to={`${AppRoute.Quest}/${reservation.quest.id}`}>{reservation.quest.title}</Link>
           <span className="quest-card__info">[сегодня,&nbsp;17:00. наб. реки Карповки&nbsp;5, лит&nbsp;П<br />м. Петроградская]</span>
         </div>
         <ul className="tags quest-card__tags">
