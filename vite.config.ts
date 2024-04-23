@@ -25,6 +25,8 @@ export default defineConfig({
       '@store': resolve(root, 'store'),
       '@thunks': resolve(root, 'thunks'),
       '@hooks': resolve(root, 'hooks'),
+      '@assets': resolve(root, 'assets'),
+      '@utils': resolve(root, 'utils'),
     }
   }
 });

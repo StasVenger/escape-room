@@ -1,0 +1,7 @@
+.my-quests-list-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 26px;
+}

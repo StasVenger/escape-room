@@ -1,37 +1,74 @@
 import Loader from '@components/loader/loader';
+import Map from '@components/map/map';
 import Wrapper from '@components/wrapper/wrapper';
-import { RequestStatus } from '@constants';
+import { AppRoute, RequestStatus } from '@constants';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import NotFoundPage from '@pages/not-found-page/not-found-page';
+import { bookingSelectors } from '@store/slices/booking';
 import { questSelectors } from '@store/slices/quest';
+import { bookingQuestAction, fetchBookingInfoAction } from '@store/thunks/booking';
 import { fetchQuestByIdAction } from '@store/thunks/quests';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+
+type TBookingForm = {
+  date: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+}
 
 function BookingPage(): JSX.Element {
   const { questId } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const questInfo = useAppSelector(questSelectors.selectQuest);
+  const bookingInfo = useAppSelector(bookingSelectors.selectBookingInfo);
+  const selectedBooking = useAppSelector(bookingSelectors.selectSelectedBookingInfo);
   const questRequestStatus = useAppSelector(questSelectors.selectStatus);
+  const bookingRequestStatus = useAppSelector(bookingSelectors.selectBookingStatus);
+  const { register, handleSubmit, formState: { errors } } = useForm<TBookingForm>();
 
   useEffect(() => {
     dispatch(fetchQuestByIdAction(questId as string));
+    dispatch(fetchBookingInfoAction(questId as string));
   }, [dispatch, questId]);
 
   if (questRequestStatus === RequestStatus.Loading) {
     return <Loader />;
   }
 
-  if (questRequestStatus === RequestStatus.Failed || !questInfo || !questId) {
+  if (questRequestStatus === RequestStatus.Failed || !questInfo || !selectedBooking) {
     return <NotFoundPage />;
   }
+
+  const onSubmit = (data: TBookingForm) => {
+    dispatch(bookingQuestAction({
+      questId: questId as string,
+      body: {
+        date: data.date.split('-')[0],
+        time: data.date.split('-')[1],
+        contactPerson: data.contactPerson,
+        phone: data.phone,
+        withChildren: data.withChildren,
+        peopleCount: Number(data.peopleCount),
+        placeId: selectedBooking.id
+      }
+    }));
+
+    if(bookingRequestStatus === RequestStatus.Success) {
+      return navigate(AppRoute.MyQuests);
+    }
+  };
 
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
-          <source type="image/webp" srcSet={questInfo?.coverImgWebp} />
-          <img src={questInfo?.coverImg} srcSet={questInfo?.coverImg} width={1366} height={1959} alt="" />
+          <source type="image/webp" srcSet="/img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />
+          <img src="/img/content/maniac/maniac-bg-size-m.jpg" srcSet="/img/content/maniac/maniac-bg-size-m@2x.jpg 2x" width="1366" height="1959" alt="" />
         </picture>
       </div>
       <div className="container container--size-s">
@@ -42,53 +79,55 @@ function BookingPage(): JSX.Element {
         </div>
         <div className="page-content__item">
           <div className="booking-map">
-            <div className="map">
-              <div className="map__container" />
-            </div>
-            <p className="booking-map__address">Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м. Петроградская</p>
+            <Map latitude={selectedBooking.location.coords[0]} longitude={selectedBooking.location.coords[1]} locations={bookingInfo}/>
+            <p className="booking-map__address">Вы&nbsp;выбрали: {selectedBooking?.location.address}</p>
           </div>
         </div>
-        <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
+        <form
+          className="booking-form"
+          action="https://echo.htmlacademy.ru/"
+          method="post"
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            handleSubmit(onSubmit)(evt);
+          }}
+        >
           <fieldset className="booking-form__section">
             <legend className="visually-hidden">Выбор даты и времени</legend>
             <fieldset className="booking-form__date-section">
               <legend className="booking-form__date-title">Сегодня</legend>
               <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="today9h45m" name="date" required defaultValue="today9h45m" /><span className="custom-radio__label">9:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="today15h00m" name="date" defaultChecked required defaultValue="today15h00m" /><span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="today17h30m" name="date" required defaultValue="today17h30m" /><span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="today19h30m" name="date" required defaultValue="today19h30m" disabled /><span className="custom-radio__label">19:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="today21h30m" name="date" required defaultValue="today21h30m" /><span className="custom-radio__label">21:30</span>
-                </label>
+                {selectedBooking?.slots.today.map((slot) => (
+                  <label className="custom-radio booking-form__date" key={slot.time}>
+                    <input
+                      type="radio"
+                      id={`today${slot.time}`}
+                      required
+                      defaultValue={`today-${slot.time}`}
+                      disabled={!slot.isAvailable}
+                      {...register('date')}
+                    />
+                    <span className="custom-radio__label">{slot.time}</span>
+                  </label>
+                ))}
               </div>
             </fieldset>
             <fieldset className="booking-form__date-section">
               <legend className="booking-form__date-title">Завтра</legend>
               <div className="booking-form__date-inner-wrapper">
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="tomorrow11h00m" name="date" required defaultValue="tomorrow11h00m" /><span className="custom-radio__label">11:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="tomorrow15h00m" name="date" required defaultValue="tomorrow15h00m" disabled /><span className="custom-radio__label">15:00</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="tomorrow17h30m" name="date" required defaultValue="tomorrow17h30m" disabled /><span className="custom-radio__label">17:30</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="tomorrow19h45m" name="date" required defaultValue="tomorrow19h45m" /><span className="custom-radio__label">19:45</span>
-                </label>
-                <label className="custom-radio booking-form__date">
-                  <input type="radio" id="tomorrow21h30m" name="date" required defaultValue="tomorrow21h30m" /><span className="custom-radio__label">21:30</span>
-                </label>
+                {selectedBooking?.slots.tomorrow.map((slot) => (
+                  <label className="custom-radio booking-form__date" key={slot.time}>
+                    <input
+                      type="radio"
+                      id={`tomorrow${slot.time}`}
+                      required
+                      defaultValue={`tomorrow-${slot.time}`}
+                      disabled={!slot.isAvailable}
+                      {...register('date')}
+                    />
+                    <span className="custom-radio__label">{slot.time}</span>
+                  </label>
+                ))}
               </div>
             </fieldset>
           </fieldset>
@@ -96,18 +135,64 @@ function BookingPage(): JSX.Element {
             <legend className="visually-hidden">Контактная информация</legend>
             <div className="custom-input booking-form__input">
               <label className="custom-input__label" htmlFor="name">Ваше имя</label>
-              <input type="text" id="name" name="name" placeholder="Имя" required pattern="[А-Яа-яЁёA-Za-z'- ]{1,}" />
+              <input
+                type="text"
+                id="name"
+                placeholder="Имя"
+                {...register('contactPerson', {
+                  required: 'Поле обязательно для заполнения',
+                  minLength: {
+                    value: 1,
+                    message: 'Имя должно содержать минимум 1 символ',
+                  },
+                  maxLength: {
+                    value: 15,
+                    message: 'Имя не должно превышать 15 символов',
+                  },
+                  pattern: {
+                    value: /^[А-Яа-яЁёA-Za-z' ]+$/,
+                    message: 'Недопустимые символы в имени',
+                  }
+                })}
+              />
+              {errors.contactPerson && <span role="alert">{errors.contactPerson.message}</span>}
             </div>
             <div className="custom-input booking-form__input">
               <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
-              <input type="tel" id="tel" name="tel" placeholder="Телефон" required pattern="[0-9]{10,}" />
+              <input
+                type="tel"
+                id="tel"
+                placeholder="Телефон"
+                {...register('phone', {
+                  required: 'Поле обязательно для заполнения',
+                  pattern: {
+                    value: /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/,
+                    message: 'Номер телефона должен быть в формате +7 (000) 000-00-00',
+                  },
+                })}
+              />
+              {errors.phone && <span role="alert">{errors.phone.message}</span>}
             </div>
             <div className="custom-input booking-form__input">
               <label className="custom-input__label" htmlFor="person">Количество участников</label>
-              <input type="number" id="person" name="person" placeholder="Количество участников" required />
+              <input
+                type="number"
+                id="person"
+                placeholder="Количество участников"
+                {...register('peopleCount', {
+                  required: 'Поле обязятельно для заполнения',
+                  validate: (value) => {
+                    const peopleMinMax = questInfo.peopleMinMax;
+                    return (value < peopleMinMax[0] || value > peopleMinMax[1])
+                      ? `Количество участников должно быть между ${peopleMinMax[0]} и ${peopleMinMax[1]}`
+                      : true;
+                  }
+                })}
+              />
+              {errors.peopleCount && <span role="alert">{errors.peopleCount.message}</span>}
             </div>
             <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
-              <input type="checkbox" id="children" name="children" defaultChecked />
+              <input type="checkbox" id="children" defaultChecked {...register('withChildren')}/>
               <span className="custom-checkbox__icon">
                 <svg width={20} height={17} aria-hidden="true">
                   <use xlinkHref="#icon-tick" />

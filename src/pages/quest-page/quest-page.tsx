@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
-import Wrapper from '../../components/wrapper/wrapper';
-import { AppRoute, DIFFICULTY_LEVELS, QUEST_TYPES, RequestStatus } from '../../constants';
+import Wrapper from '@components/wrapper/wrapper';
+import { AppRoute, DIFFICULTY_LEVELS, QUEST_TYPES, RequestStatus } from '@constants';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { questSelectors } from '@store/slices/quest';
