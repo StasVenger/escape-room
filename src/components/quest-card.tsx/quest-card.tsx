@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { AppRoute, DIFFICULTY_LEVELS } from '@constants';
 import { Quest } from '@type/quest';
-import { Link } from 'react-router-dom';
+import { formatPeopleRange } from '@utils/common';
 
 type TQuestCard = {
   quest: Quest;
@@ -23,7 +24,7 @@ function QuestCard({ quest }: TQuestCard): JSX.Element {
           <li className="tags__item">
             <svg width={11} height={14} aria-hidden="true">
               <use xlinkHref="#icon-person" />
-            </svg>{`${quest.peopleMinMax[0]}-${quest.peopleMinMax[1]} чел`}
+            </svg>{`${formatPeopleRange(quest.peopleMinMax[0], quest.peopleMinMax[1])}`}
           </li>
           <li className="tags__item">
             <svg width={14} height={14} aria-hidden="true">

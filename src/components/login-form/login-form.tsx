@@ -1,6 +1,6 @@
+import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@hooks/index';
 import { loginAction } from '@store/thunks/auth';
-import { useForm } from 'react-hook-form';
 
 type TFormInput = {
   email: string;

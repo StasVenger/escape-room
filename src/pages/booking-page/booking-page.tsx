@@ -1,16 +1,17 @@
-import Loader from '@components/loader/loader';
-import Map from '@components/map/map';
-import Wrapper from '@components/wrapper/wrapper';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppRoute, RequestStatus } from '@constants';
 import { useAppDispatch, useAppSelector } from '@hooks/index';
-import NotFoundPage from '@pages/not-found-page/not-found-page';
 import { bookingSelectors } from '@store/slices/booking';
 import { questSelectors } from '@store/slices/quest';
 import { bookingQuestAction, fetchBookingInfoAction } from '@store/thunks/booking';
 import { fetchQuestByIdAction } from '@store/thunks/quests';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import HelmetComponent from '@components/helmet-component/helmet-component';
+import Loader from '@components/loader/loader';
+import Map from '@components/map/map';
+import Wrapper from '@components/wrapper/wrapper';
+import NotFoundPage from '@pages/not-found-page/not-found-page';
 
 type TBookingForm = {
   date: string;
@@ -28,15 +29,20 @@ function BookingPage(): JSX.Element {
   const bookingInfo = useAppSelector(bookingSelectors.selectBookingInfo);
   const selectedBooking = useAppSelector(bookingSelectors.selectSelectedBookingInfo);
   const questRequestStatus = useAppSelector(questSelectors.selectStatus);
-  const bookingRequestStatus = useAppSelector(bookingSelectors.selectBookingStatus);
+  const bookingInfoStatus = useAppSelector(bookingSelectors.selectBookingStatus);
+  const bookingAddRequestStatus = useAppSelector(bookingSelectors.selectBookingAddStatus);
   const { register, handleSubmit, formState: { errors } } = useForm<TBookingForm>();
 
   useEffect(() => {
     dispatch(fetchQuestByIdAction(questId as string));
     dispatch(fetchBookingInfoAction(questId as string));
-  }, [dispatch, questId]);
 
-  if (questRequestStatus === RequestStatus.Loading) {
+    if(bookingAddRequestStatus === RequestStatus.Success) {
+      navigate(AppRoute.MyQuests);
+    }
+  }, [bookingAddRequestStatus, dispatch, navigate, questId]);
+
+  if (questRequestStatus === RequestStatus.Loading || bookingInfoStatus === RequestStatus.Loading) {
     return <Loader />;
   }
 
@@ -57,14 +63,11 @@ function BookingPage(): JSX.Element {
         placeId: selectedBooking.id
       }
     }));
-
-    if(bookingRequestStatus === RequestStatus.Success) {
-      return navigate(AppRoute.MyQuests);
-    }
   };
 
   return (
     <Wrapper mainClass="page-content" extraClass="decorated-page">
+      <HelmetComponent title="Бронирование квеста - Escape Room" />
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet="/img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" />

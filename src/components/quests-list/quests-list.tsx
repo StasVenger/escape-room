@@ -1,5 +1,5 @@
-import QuestCard from '@components/quest-card.tsx/quest-card';
 import { Quest } from '@type/quest';
+import QuestCard from '@components/quest-card.tsx/quest-card';
 
 type TQuestsList = {
   quests: Quest[];

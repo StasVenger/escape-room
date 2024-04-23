@@ -9,6 +9,7 @@ type BookingState = {
   reservationStatus: RequestStatus;
   bookingInfo: BookingInfo[];
   bookingInfoStatus: RequestStatus;
+  bookingAddRequestStatus: RequestStatus;
   selectedBookingInfo: BookingInfo | null;
 }
 
@@ -17,6 +18,7 @@ const initialState: BookingState = {
   reservationStatus: RequestStatus.Idle,
   bookingInfo: [],
   bookingInfoStatus: RequestStatus.Idle,
+  bookingAddRequestStatus: RequestStatus.Idle,
   selectedBookingInfo: null,
 };
 
@@ -40,22 +42,22 @@ const bookingSlice = createSlice({
         state.bookingInfoStatus = RequestStatus.Loading;
       })
       .addCase(fetchBookingInfoAction.fulfilled, (state, action) => {
-        state.bookingInfoStatus = RequestStatus.Success;
         state.bookingInfo = action.payload;
         state.selectedBookingInfo = action.payload[0];
+        state.bookingInfoStatus = RequestStatus.Success;
       })
       .addCase(fetchBookingInfoAction.rejected, (state) => {
         state.bookingInfoStatus = RequestStatus.Failed;
       })
       .addCase(bookingQuestAction.pending, (state) => {
-        state.bookingInfoStatus = RequestStatus.Loading;
+        state.bookingAddRequestStatus = RequestStatus.Loading;
       })
       .addCase(bookingQuestAction.fulfilled, (state, action) => {
         state.reservations.push(action.payload);
-        state.bookingInfoStatus = RequestStatus.Success;
+        state.bookingAddRequestStatus = RequestStatus.Success;
       })
       .addCase(bookingQuestAction.rejected, (state) => {
-        state.bookingInfoStatus = RequestStatus.Failed;
+        state.bookingAddRequestStatus = RequestStatus.Failed;
       })
       .addCase(deleteReservationAction.fulfilled, (state, action) => {
         state.reservations = state.reservations.filter((reservation) => reservation.id !== action.payload);
@@ -74,6 +76,7 @@ const bookingSlice = createSlice({
     selectBookingInfo: (state: BookingState) => state.bookingInfo,
     selectBookingStatus: (state: BookingState) => state.bookingInfoStatus,
     selectSelectedBookingInfo: (state: BookingState) => state.selectedBookingInfo,
+    selectBookingAddStatus: (state: BookingState) => state.bookingAddRequestStatus,
   }
 });
 

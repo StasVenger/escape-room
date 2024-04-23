@@ -1,9 +1,11 @@
+import HelmetComponent from '@components/helmet-component/helmet-component';
 import LoginForm from '@components/login-form/login-form';
 import Wrapper from '@components/wrapper/wrapper';
 
 function LoginPage(): JSX.Element {
   return (
     <Wrapper mainClass="decorated-page" extraClass="login">
+      <HelmetComponent title="Авторизация - Escape Room" />
       <div className="decorated-page__decor" aria-hidden="true">
         <picture>
           <source type="image/webp" srcSet="img/content/maniac/maniac-size-m.webp, img/content/maniac/maniac-size-m@2x.webp 2x" />
