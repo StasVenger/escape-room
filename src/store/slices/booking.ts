@@ -56,6 +56,10 @@ const bookingSlice = createSlice({
       })
       .addCase(bookingQuestAction.rejected, (state) => {
         state.bookingInfoStatus = RequestStatus.Failed;
+      })
+      .addCase(deleteReservationAction.fulfilled, (state, action) => {
+        state.reservations = state.reservations.filter((reservation) => reservation.id !== action.payload);
+        state.reservationStatus = RequestStatus.Success;
       }),
   initialState,
   name: 'booking',

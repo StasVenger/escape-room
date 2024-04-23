@@ -24,10 +24,11 @@ export const fetchReservationAction = createAppAsyncThunk<Reservation[], undefin
   }
 );
 
-export const deleteReservationAction = createAppAsyncThunk<void, string>(
+export const deleteReservationAction = createAppAsyncThunk<string, string>(
   'data/deleteReservation',
   async (reservationId, { extra: api }) => {
     await api.delete(`${ApiRoute.Reservation}/${reservationId}`);
+    return reservationId;
   }
 );
 

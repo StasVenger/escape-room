@@ -1,4 +1,6 @@
 import { AppRoute, DIFFICULTY_LEVELS } from '@constants';
+import { useAppDispatch } from '@hooks/index';
+import { deleteReservationAction } from '@store/thunks/booking';
 import { Reservation } from '@type/reservation';
 import { Link } from 'react-router-dom';
 
@@ -7,6 +9,12 @@ type TMyQuestCardProps = {
 }
 
 function MyQuestCard({ reservation }: TMyQuestCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const handleQuestCancelClick = (questId: string) => {
+    dispatch(deleteReservationAction(questId));
+  };
+
   return (
     <div className="quest-card">
       <div className="quest-card__img">
@@ -32,7 +40,13 @@ function MyQuestCard({ reservation }: TMyQuestCardProps): JSX.Element {
             </svg>{DIFFICULTY_LEVELS[reservation.quest.level as keyof typeof DIFFICULTY_LEVELS]}
           </li>
         </ul>
-        <button className="btn btn--accent btn--secondary quest-card__btn" type="button">Отменить</button>
+        <button
+          className="btn btn--accent btn--secondary quest-card__btn"
+          type="button"
+          onClick={() => handleQuestCancelClick(reservation.id)}
+        >
+          Отменить
+        </button>
       </div>
     </div>
   );
